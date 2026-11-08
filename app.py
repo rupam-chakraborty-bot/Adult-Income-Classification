@@ -116,4 +116,260 @@ if uploaded_file is not None:
         if "income" not in df.columns:
 
             st.error(
-          
+                "Column 'income' not found in uploaded file."
+            )
+
+            st.stop()
+
+        y_true = df["income"]
+
+        X = df.drop(
+            columns=["income"]
+        )
+
+        # --------------------------------------------------
+        # Load Scaler
+        # --------------------------------------------------
+
+        scaler = joblib.load(
+            "model/scaler.pkl"
+        )
+
+        # --------------------------------------------------
+        # LOGISTIC REGRESSION
+        # --------------------------------------------------
+
+        if model_name == "Logistic Regression":
+
+            model = joblib.load(
+                "model/logistic_model.pkl"
+            )
+
+            X_model = scaler.transform(X)
+
+            y_pred = model.predict(X_model)
+
+            y_score = model.predict_proba(
+                X_model
+            )[:, 1]
+
+        # --------------------------------------------------
+        # DECISION TREE
+        # --------------------------------------------------
+
+        elif model_name == "Decision Tree":
+
+            model = joblib.load(
+                "model/decision_tree.pkl"
+            )
+
+            X_model = X
+
+            y_pred = model.predict(
+                X_model
+            )
+
+            y_score = model.predict_proba(
+                X_model
+            )[:, 1]
+
+        # --------------------------------------------------
+        # KNN
+        # --------------------------------------------------
+
+        elif model_name == "KNN":
+
+            model = joblib.load(
+                "model/knn_model.pkl"
+            )
+
+            X_model = scaler.transform(X)
+
+            y_pred = model.predict(
+                X_model
+            )
+
+            y_score = model.predict_proba(
+                X_model
+            )[:, 1]
+
+        # --------------------------------------------------
+        # NAIVE BAYES
+        # --------------------------------------------------
+
+        elif model_name == "Naive Bayes":
+
+            model = joblib.load(
+                "model/naive_bayes.pkl"
+            )
+
+            X_model = scaler.transform(X)
+
+            y_pred = model.predict(
+                X_model
+            )
+
+            y_score = model.predict_proba(
+                X_model
+            )[:, 1]
+
+        # --------------------------------------------------
+        # SVM
+        # --------------------------------------------------
+
+        else:
+
+            model = joblib.load(
+                "model/svm_model.pkl"
+            )
+
+            X_model = scaler.transform(X)
+
+            y_pred = model.predict(
+                X_model
+            )
+
+            y_score = model.decision_function(
+                X_model
+            )
+
+            st.success(
+                "🏆 Best Performing Model Based On Notebook Evaluation"
+            )
+
+        # --------------------------------------------------
+        # Metrics
+        # --------------------------------------------------
+
+        accuracy = accuracy_score(
+            y_true,
+            y_pred
+        )
+
+        precision = precision_score(
+            y_true,
+            y_pred
+        )
+
+        recall = recall_score(
+            y_true,
+            y_pred
+        )
+
+        f1 = f1_score(
+            y_true,
+            y_pred
+        )
+
+        auc = roc_auc_score(
+            y_true,
+            y_score
+        )
+
+        mcc = matthews_corrcoef(
+            y_true,
+            y_pred
+        )
+
+        # --------------------------------------------------
+        # Metric Dashboard
+        # --------------------------------------------------
+
+        st.subheader("📈 Evaluation Metrics")
+
+        c1, c2, c3 = st.columns(3)
+
+        c1.metric(
+            "Accuracy",
+            f"{accuracy*100:.2f}%"
+        )
+
+        c2.metric(
+            "AUC",
+            f"{auc:.4f}"
+        )
+
+        c3.metric(
+            "Precision",
+            f"{precision*100:.2f}%"
+        )
+
+        c1.metric(
+            "Recall",
+            f"{recall*100:.2f}%"
+        )
+
+        c2.metric(
+            "F1 Score",
+            f"{f1*100:.2f}%"
+        )
+
+        c3.metric(
+            "MCC",
+            f"{mcc:.4f}"
+        )
+
+        # --------------------------------------------------
+        # Confusion Matrix
+        # --------------------------------------------------
+
+        st.subheader("📋 Confusion Matrix")
+
+        cm = confusion_matrix(
+            y_true,
+            y_pred
+        )
+
+        fig, ax = plt.subplots(
+            figsize=(6,4)
+        )
+
+        sns.heatmap(
+            cm,
+            annot=True,
+            fmt='d',
+            cmap='Blues',
+            ax=ax
+        )
+
+        ax.set_xlabel(
+            "Predicted Label"
+        )
+
+        ax.set_ylabel(
+            "Actual Label"
+        )
+
+        ax.set_title(
+            "Confusion Matrix"
+        )
+
+        st.pyplot(fig)
+
+        # --------------------------------------------------
+        # Classification Report
+        # --------------------------------------------------
+
+        st.subheader(
+            "📄 Classification Report"
+        )
+
+        report_dict = classification_report(
+            y_true,
+            y_pred,
+            output_dict=True
+        )
+
+        report_df = pd.DataFrame(
+            report_dict
+        ).transpose()
+
+        st.dataframe(
+            report_df.round(4)
+        )
+
+    except Exception as e:
+
+        st.error(
+            f"Error: {str(e)}"
+        )
