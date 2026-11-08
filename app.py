@@ -31,13 +31,11 @@ st.set_page_config(
 st.title("💰 Adult Income Classification")
 
 st.markdown("""
-### Machine Learning Assignment 2
 
-Predict whether an individual's annual income exceeds **$50K**
-using Machine Learning classification models trained on the
-Adult Income Dataset.
+This application predicts whether an individual's annual income exceeds **$50K**
+using multiple Machine Learning classification models trained on the Adult Income Dataset.
 
-Upload the generated **test_data.csv** file and evaluate model performance.
+Upload **test_data.csv** generated from the notebook and evaluate model performance.
 """)
 
 # ==========================================================
