@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import joblib
-
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -26,7 +25,7 @@ st.set_page_config(
 )
 
 # ==========================================================
-# TITLE
+# PAGE HEADER
 # ==========================================================
 
 st.title("💰 Adult Income Classification")
@@ -34,10 +33,11 @@ st.title("💰 Adult Income Classification")
 st.markdown("""
 ### Machine Learning Assignment 2
 
-This application predicts whether an individual's annual income exceeds **$50K**
-using multiple Machine Learning classification models trained on the Adult Income Dataset.
+Predict whether an individual's annual income exceeds **$50K**
+using Machine Learning classification models trained on the
+Adult Income Dataset.
 
-Upload **test_data.csv** generated from the notebook and evaluate model performance.
+Upload the generated **test_data.csv** file and evaluate model performance.
 """)
 
 # ==========================================================
@@ -50,11 +50,11 @@ uploaded_file = st.file_uploader(
 )
 
 # ==========================================================
-# MODEL DROPDOWN
+# MODEL SELECTION
 # ==========================================================
 
 model_name = st.selectbox(
-    "Select Model",
+    "🤖 Select Model",
     [
         "Logistic Regression",
         "Decision Tree",
@@ -69,22 +69,22 @@ st.info(
 )
 
 # ==========================================================
-# PROCESS FILE
+# MAIN PROCESSING
 # ==========================================================
 
 if uploaded_file is not None:
 
     try:
 
-        # --------------------------------------------------
-        # Read Uploaded CSV
-        # --------------------------------------------------
+        # ==================================================
+        # READ CSV
+        # ==================================================
 
         df = pd.read_csv(uploaded_file)
 
-        # --------------------------------------------------
-        # Dataset Information
-        # --------------------------------------------------
+        # ==================================================
+        # DATASET INFORMATION
+        # ==================================================
 
         st.subheader("📊 Dataset Information")
 
@@ -100,18 +100,20 @@ if uploaded_file is not None:
             df.shape[1]
         )
 
-        # --------------------------------------------------
-        # Show Sample Data
-        # --------------------------------------------------
+        # ==================================================
+        # SHOW SAMPLE DATA
+        # ==================================================
 
         with st.expander(
-            "🔍 View Sample of Uploaded Dataset"
+            "🔍 View Uploaded Dataset Sample"
         ):
-            st.dataframe(df.head())
+            st.dataframe(
+                df.head()
+            )
 
-        # --------------------------------------------------
-        # Check Target Column
-        # --------------------------------------------------
+        # ==================================================
+        # VALIDATE TARGET
+        # ==================================================
 
         if "income" not in df.columns:
 
@@ -121,23 +123,27 @@ if uploaded_file is not None:
 
             st.stop()
 
+        # ==================================================
+        # FEATURES AND TARGET
+        # ==================================================
+
         y_true = df["income"]
 
         X = df.drop(
             columns=["income"]
         )
 
-        # --------------------------------------------------
-        # Load Scaler
-        # --------------------------------------------------
+        # ==================================================
+        # LOAD SCALER
+        # ==================================================
 
         scaler = joblib.load(
             "model/scaler.pkl"
         )
 
-        # --------------------------------------------------
-        # LOGISTIC REGRESSION
-        # --------------------------------------------------
+        # ==================================================
+        # MODEL LOADING
+        # ==================================================
 
         if model_name == "Logistic Regression":
 
@@ -153,10 +159,6 @@ if uploaded_file is not None:
                 X_model
             )[:, 1]
 
-        # --------------------------------------------------
-        # DECISION TREE
-        # --------------------------------------------------
-
         elif model_name == "Decision Tree":
 
             model = joblib.load(
@@ -165,17 +167,11 @@ if uploaded_file is not None:
 
             X_model = X
 
-            y_pred = model.predict(
-                X_model
-            )
+            y_pred = model.predict(X_model)
 
             y_score = model.predict_proba(
                 X_model
             )[:, 1]
-
-        # --------------------------------------------------
-        # KNN
-        # --------------------------------------------------
 
         elif model_name == "KNN":
 
@@ -185,17 +181,11 @@ if uploaded_file is not None:
 
             X_model = scaler.transform(X)
 
-            y_pred = model.predict(
-                X_model
-            )
+            y_pred = model.predict(X_model)
 
             y_score = model.predict_proba(
                 X_model
             )[:, 1]
-
-        # --------------------------------------------------
-        # NAIVE BAYES
-        # --------------------------------------------------
 
         elif model_name == "Naive Bayes":
 
@@ -205,17 +195,11 @@ if uploaded_file is not None:
 
             X_model = scaler.transform(X)
 
-            y_pred = model.predict(
-                X_model
-            )
+            y_pred = model.predict(X_model)
 
             y_score = model.predict_proba(
                 X_model
             )[:, 1]
-
-        # --------------------------------------------------
-        # SVM
-        # --------------------------------------------------
 
         else:
 
@@ -225,21 +209,19 @@ if uploaded_file is not None:
 
             X_model = scaler.transform(X)
 
-            y_pred = model.predict(
-                X_model
-            )
+            y_pred = model.predict(X_model)
 
             y_score = model.decision_function(
                 X_model
             )
 
             st.success(
-                "🏆 Best Performing Model Based On Notebook Evaluation"
+                "🏆 Best Performing Model Based on Notebook Evaluation"
             )
 
-        # --------------------------------------------------
-        # Metrics
-        # --------------------------------------------------
+        # ==================================================
+        # CALCULATE METRICS
+        # ==================================================
 
         accuracy = accuracy_score(
             y_true,
@@ -271,11 +253,15 @@ if uploaded_file is not None:
             y_pred
         )
 
-        # --------------------------------------------------
-        # Metric Dashboard
-        # --------------------------------------------------
+        # ==================================================
+        # METRICS DASHBOARD
+        # ==================================================
 
-        st.subheader("📈 Evaluation Metrics")
+        st.markdown("---")
+
+        st.subheader(
+            "📈 Evaluation Metrics"
+        )
 
         c1, c2, c3 = st.columns(3)
 
@@ -309,11 +295,19 @@ if uploaded_file is not None:
             f"{mcc:.4f}"
         )
 
-        # --------------------------------------------------
-        # Confusion Matrix
-        # --------------------------------------------------
+        st.markdown("---")
 
-        st.subheader("📋 Confusion Matrix")
+        # ==================================================
+        # CONFUSION MATRIX
+        # ==================================================
+
+        st.subheader(
+            "📋 Confusion Matrix"
+        )
+
+        st.caption(
+            "Summary of correct and incorrect predictions made by the selected model."
+        )
 
         cm = confusion_matrix(
             y_true,
@@ -321,34 +315,61 @@ if uploaded_file is not None:
         )
 
         fig, ax = plt.subplots(
-            figsize=(6,4)
+            figsize=(4, 3)
         )
 
         sns.heatmap(
             cm,
             annot=True,
-            fmt='d',
-            cmap='Blues',
+            fmt="d",
+            cmap="Blues",
+            cbar=False,
+            square=True,
+            linewidths=1,
+            linecolor="white",
+            annot_kws={
+                "size": 12
+            },
             ax=ax
         )
 
         ax.set_xlabel(
-            "Predicted Label"
+            "Predicted",
+            fontsize=10
         )
 
         ax.set_ylabel(
-            "Actual Label"
+            "Actual",
+            fontsize=10
+        )
+
+        ax.set_xticklabels(
+            ["<=50K", ">50K"],
+            rotation=0
+        )
+
+        ax.set_yticklabels(
+            ["<=50K", ">50K"],
+            rotation=0
         )
 
         ax.set_title(
-            "Confusion Matrix"
+            "Confusion Matrix",
+            fontsize=12
         )
 
-        st.pyplot(fig)
+        plt.tight_layout()
 
-        # --------------------------------------------------
-        # Classification Report
-        # --------------------------------------------------
+        st.pyplot(
+            fig,
+            use_container_width=False
+        )
+
+        # ==================================================
+        # CLASSIFICATION REPORT
+        # ==================================================
+
+        st.markdown("---")
 
         st.subheader(
             "📄 Classification Report"
@@ -365,7 +386,8 @@ if uploaded_file is not None:
         ).transpose()
 
         st.dataframe(
-            report_df.round(4)
+            report_df.round(4),
+            use_container_width=True
         )
 
     except Exception as e:
