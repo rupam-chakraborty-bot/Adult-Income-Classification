@@ -76,16 +76,11 @@ Naive Bayes	            0.5656	  0.8067	0.3579	    0.9474	0.5195	0.3520
 Support Vector Machine	0.8456	  0.9022	0.7399	    0.5812	0.6510	0.5603
 
 **E. Observations on Model Performance**
-ML Model Name	                    Observation About Model Performance
-
-Logistic Regression	              Logistic Regression achieved strong overall performance with an Accuracy of 84.44% and an                                    AUC of 0.9016. The model provided a good balance between precision and recall and served                                     as a strong baseline classifier for the Adult Income dataset.
-
-Decision Tree	Decision            Decision Tree achieved an Accuracy of 81.04%. The model was easy to interpret but showed                                     lower overall performance compared to Logistic Regression and SVM. Its MCC and AUC scores                                    indicate weaker generalization capability on this dataset.
-                                  
-KNN	                              KNN achieved an Accuracy of 82.19% and an AUC of 0.8471. The model performed reasonably                                      well but was influenced by the choice of neighbors and feature scaling. Performance was                                      better than Decision Tree in some metrics but lower than Logistic Regression and SVM.
-
-Naive Bayes	                      Naive Bayes achieved the highest Recall (94.74%) among all models, meaning it successfully                                   identified most positive income cases. However, its Precision (35.79%) and overall                                           Accuracy (56.56%) were comparatively low, resulting in many false positive predictions.
-
-Support Vector Machine	          Support Vector Machine (SVM) delivered the best overall results with the highest Accuracy                                    (84.56%), AUC (0.9022), Precision (73.99%), and MCC (0.5603). The model demonstrated                                         strong predictive capability and the best overall balance of classification metrics.
-
-Overall Winner for Dataset	      Support Vector Machine (SVM) was selected as the best-performing model because it achieved                                   the highest Accuracy, AUC, Precision, and MCC among all five classifiers, indicating                                         superior overall classification performance on the Adult Income dataset.
+| ML Model Name | Observation About Model Performance |
+| :--- | :--- |
+| **Logistic Regression** | Logistic Regression achieved strong overall performance with an Accuracy of 84.44% and an AUC of 0.9016. The model provided a good balance between precision and recall and served as a strong baseline classifier for the Adult Income dataset. |
+| **Decision Tree** | Decision Tree achieved an Accuracy of 81.04%. The model was easy to interpret but showed lower overall performance compared to Logistic Regression and SVM. Its MCC and AUC scores indicate weaker generalization capability on this dataset. |
+| **KNN** | KNN achieved an Accuracy of 82.19% and an AUC of 0.8471. The model performed reasonably well but was influenced by the choice of neighbors and feature scaling. Performance was better than Decision Tree in some metrics but lower than Logistic Regression and SVM. |
+| **Naive Bayes** | Naive Bayes achieved the highest Recall (94.74%) among all models, meaning it successfully identified most positive income cases. However, its Precision (35.79%) and overall Accuracy (56.56%) were comparatively low, resulting in many false positive predictions. |
+| **Support Vector Machine** | Support Vector Machine (SVM) delivered the best overall results with the highest Accuracy (84.56%), AUC (0.9022), Precision (73.99%), and MCC (0.5603). The model demonstrated strong predictive capability and the best overall balance of classification metrics. |
+| **Overall Winner for Dataset** | Support Vector Machine (SVM) was selected as the best-performing model because it achieved the highest Accuracy, AUC, Precision, and MCC among all five classifiers, indicating superior overall classification performance on the Adult Income dataset. |
