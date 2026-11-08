@@ -67,13 +67,13 @@ Support Vector Machine (SVM)
 
 **Model Performance Comparison**
 
-ML Model Name	          Accuracy	AUC	    Precision	  Recall	F1 Score	MCC
-----------------------------------------------------------------------------
-Logistic Regression	    0.8444	  0.9016	0.7326	    0.5865	0.6515	0.5586
-Decision Tree	          0.8104	  0.7471	0.6169	    0.6204	0.6186	0.4925
-KNN	                    0.8219	  0.8471	0.6624	    0.5740	0.6151	0.5021
-Naive Bayes	            0.5656	  0.8067	0.3579	    0.9474	0.5195	0.3520
-Support Vector Machine	0.8456	  0.9022	0.7399	    0.5812	0.6510	0.5603
+| ML Model Name | Accuracy | AUC | Precision | Recall | F1 Score | MCC |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Logistic Regression** | 0.8444 | 0.9016 | 0.7326 | 0.5865 | 0.6515 | 0.5586 |
+| **Decision Tree** | 0.8104 | 0.7471 | 0.6169 | 0.6204 | 0.6186 | 0.4925 |
+| **KNN** | 0.8219 | 0.8471 | 0.6624 | 0.5740 | 0.6151 | 0.5021 |
+| **Naive Bayes** | 0.5656 | 0.8067 | 0.3579 | 0.9474 | 0.5195 | 0.3520 |
+| **Support Vector Machine** | 0.8456 | 0.9022 | 0.7399 | 0.5812 | 0.6510 | 0.5603 |
 
 **E. Observations on Model Performance**
 | ML Model Name | Observation About Model Performance |
