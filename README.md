@@ -56,6 +56,9 @@ The following preprocessing steps were performed:
   6. Data was split into training and testing sets.
   7. Feature scaling was performed using StandardScaler.
 
+**C. GitHub Repository Link**
+GitHub Repository: https://github.com/rupam-chakraborty-bot/Adult-Income-Classification
+
 **D. Models Used and Performance Comparison**
 The following machine learning models were implemented:
 
